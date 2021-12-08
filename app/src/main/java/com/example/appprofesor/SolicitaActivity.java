@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 import info.androidhive.sqlite.helper.DatabaseHelper;
 
-public class SolicitaActivity extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener{
+public class SolicitaActivity extends AppCompatActivity{
+/*
 
     ArrayList<String> items;
     private EditText et_cantidad, et_hora;
@@ -97,5 +97,6 @@ public class SolicitaActivity extends AppCompatActivity implements
         Volver.putExtra("IdProfesor",IdProfesor);
         startActivity(Volver);
     }
+*/
 
 }

@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 import info.androidhive.sqlite.helper.DatabaseHelper;
 
-public class PeticionesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
+public class PeticionesActivity extends AppCompatActivity{
+/*
     String IdProfesor= "";
     DatabaseHelper admin = new DatabaseHelper(this, "administracion", null, 1);
     ArrayList<String> tareas;
@@ -54,5 +54,5 @@ public class PeticionesActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
+    }*/
 }

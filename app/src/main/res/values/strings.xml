@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppProfesor</string>
+    <string name="txt_login"> Inicia sesión pulsando el icono de usuario</string>
 </resources>

@@ -19,9 +19,8 @@ import java.util.ArrayList;
 
 import info.androidhive.sqlite.helper.DatabaseHelper;
 
-public class CarritoActivity extends AppCompatActivity  implements
-        AdapterView.OnItemSelectedListener{
-
+public class CarritoActivity extends AppCompatActivity{
+/*
     DatabaseHelper admin = new DatabaseHelper(this, "administracion", null, 1);
     ArrayList<String> cosaspedidas;
     String IdProfesor="";
@@ -84,5 +83,5 @@ public class CarritoActivity extends AppCompatActivity  implements
         Intent Volver = new Intent(this, MainActivity.class);
         Volver.putExtra("IdProfesor",IdProfesor);
         startActivity(Volver);
-    }
+    }*/
 }

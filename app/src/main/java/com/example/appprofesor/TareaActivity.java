@@ -12,7 +12,7 @@ import info.androidhive.sqlite.helper.DatabaseHelper;
 import info.androidhive.sqlite.model.Tareas;
 
 public class TareaActivity extends AppCompatActivity {
-
+/*
     DatabaseHelper admin = new DatabaseHelper(this, "administracion", null, 1);
     Tareas tarea;
     TextView textstatus,textcantidad,texthora_feedback;
@@ -98,5 +98,5 @@ public class TareaActivity extends AppCompatActivity {
         Intent Volver = new Intent(this, MainActivity.class);
         Volver.putExtra("IdProfe",IdProfe);
         startActivity(Volver);
-    }
+    }*/
 }

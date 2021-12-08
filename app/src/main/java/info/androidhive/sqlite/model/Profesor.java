@@ -2,22 +2,22 @@ package info.androidhive.sqlite.model;
 
 public class Profesor {
 
-    int idProfesor;
+    String idProfesor;
     String NombreApell;
-    String IDFoto;
+    int IDFoto;
 
     public Profesor(){}
-    public Profesor(int idProfesor, String nombreApell, String IDFoto) {
+    public Profesor(String idProfesor, String nombreApell, int IDFoto) {
         this.idProfesor = idProfesor;
-        NombreApell = nombreApell;
+        this.NombreApell = nombreApell;
         this.IDFoto = IDFoto;
     }
 
-    public int getIdProfesor() {
+    public String getIdProfesor() {
         return idProfesor;
     }
 
-    public void setIdProfesor(int idProfesor) {
+    public void setIdProfesor(String idProfesor) {
         this.idProfesor = idProfesor;
     }
 
@@ -29,11 +29,11 @@ public class Profesor {
         NombreApell = nombreApell;
     }
 
-    public String getIDFoto() {
+    public int getIDFoto() {
         return IDFoto;
     }
 
-    public void setIDFoto(String IDFoto) {
+    public void setIDFoto(int IDFoto) {
         this.IDFoto = IDFoto;
     }
 

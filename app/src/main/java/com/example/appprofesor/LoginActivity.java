@@ -1,55 +1,120 @@
 package com.example.appprofesor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.Formatter;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import info.androidhive.sqlite.helper.DatabaseHelper;
+import javax.xml.transform.Result;
 
-public class LoginActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+import info.androidhive.sqlite.model.Profesor;
 
-    String NombreAlumno;
-    DatabaseHelper admin = new DatabaseHelper(this, "administracion", null, 1);
-    ArrayList<String> listProfesores = admin.getListaProfesores();
+public class LoginActivity extends AppCompatActivity{
+    protected RecyclerView recyclerViewProfe;
+    private RecViewAdaptProfe adaptadorProfe;
+    List<Profesor> listProfesores;
+    List<String> listanombres;
+    RequestQueue requestQueue;
+    Profesor profesor;
+    String IdProfesor;
+    TextView    ipadd,text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Spinner spin = (Spinner) findViewById(R.id.SpinnerTareas);
-        spin.setOnItemSelectedListener(this);
+        //---------CODIGO PARA CONSEGUIR LA IP DEL DISPOSITIVO-----------------
+        //ipadd = (TextView) findViewById(R.id.ipaddr);
+        //WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        //ipadd.setText(Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress()));
+        //String ip = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+        listProfesores = new ArrayList<Profesor>();
+        obtenerListaProfes(listProfesores);
 
-        //Creating the ArrayAdapter instance having the country list
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, listProfesores);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        text=findViewById(R.id.result);
+        recyclerViewProfe= (RecyclerView) findViewById(R.id.recyclerProfe);
+        recyclerViewProfe.setHasFixedSize(true);
+        recyclerViewProfe.setLayoutManager(new LinearLayoutManager(this));
+//        adaptadorProfe = new RecyclerViewAdaptador(listProfesores);
+//        recyclerViewProfe.setAdapter(adaptadorProfe);
+        //Toast.makeText(LoginActivity.this, listProfesores.size(), Toast.LENGTH_LONG).show();
 
-        //Setting the ArrayAdapter data on the Spinner
-        spin.setAdapter(aa);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //crear intent con la tarea y pasar el ID de la tarea
-        Intent Inicio = new Intent(this, MainActivity.class);
-        Inicio.putExtra("IdProfesor", listProfesores.get(position));
-        startActivity(Inicio);
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     public void Volver(View view){
         Intent Volver = new Intent(this, MainActivity.class);
         startActivity(Volver);
+    }
+    public void obtenerListaProfes(List Profesores){
+
+            String url="http://192.168.1.14:80/android_mysql/select.php";
+            StringRequest stringRequest = new StringRequest (Request.Method.GET,url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+
+                                JSONArray itemArray = new JSONArray(response);
+                                for (int i = 0; i < itemArray.length(); i++) {
+                                    JSONObject Profe = itemArray.getJSONObject(i);
+                                    listProfesores.add(new Profesor(
+                                            Profe.getString("id"),
+                                            Profe.getString("nombre"),
+                                            Profe.getInt("idfoto")
+                                    ));
+                                }
+                                RecViewAdaptProfe adapter = new RecViewAdaptProfe(listProfesores);
+                                recyclerViewProfe.setAdapter(adapter);
+                                text.setText(response);
+                            }
+                            catch (JSONException e) {
+                                text.setText(e.getMessage());
+                                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+            Volley.newRequestQueue(LoginActivity.this).add(stringRequest);
+
     }
 }
