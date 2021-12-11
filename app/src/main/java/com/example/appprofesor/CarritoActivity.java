@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import info.androidhive.sqlite.helper.DatabaseHelper;
 
 public class CarritoActivity extends AppCompatActivity{
 /*

@@ -49,15 +49,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 
-import info.androidhive.sqlite.helper.DatabaseHelper;
 import info.androidhive.sqlite.model.Profesor;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textPr;
     String IdProfesor="";
-    List<Profesor> profes;
-    RequestQueue requestq;
+    Profesor ProfesorActual;
     TextView    ipadd;
 
     @Override
@@ -66,25 +64,28 @@ public class MainActivity extends AppCompatActivity {
         View b = findViewById(R.id.botonAdmin);
         ImageButton login = (ImageButton)findViewById(R.id.botonLogin);
 
-/*        if(isAdmin(IdProfesor))
-            b.setVisibility(View.VISIBLE);
-        else
-            b.setVisibility(View.INVISIBLE);*/
-
-        textPr = (TextView)findViewById(R.id.textoSaludoProfe);
-        if(!TextUtils.isEmpty(IdProfesor)){
-            //textPr.setText("Hola, " + getNombreProfesor(IdProfesor));
+        if(getIntent().getExtras() != null) {
+            ProfesorActual = (Profesor) getIntent().getSerializableExtra("profe");
+            IdProfesor =ProfesorActual.getIdProfesor();
         }
+
         setContentView(R.layout.activity_main);
+        textPr = (TextView)findViewById(R.id.textoSaludoProfe);
 
+        if(!TextUtils.isEmpty(IdProfesor)){
+            textPr.setText("Hola, " +ProfesorActual.getNombreApell());
+        }
+        else{
+            textPr.setText("Clica en el botón para empezar");
+        }
     }
-
+    //Boton nuevo encargo
     public void AccedeTareas(View view){
         Intent PedirItem = new Intent(this, SolicitaActivity.class);
         PedirItem.putExtra("IdProfesor",IdProfesor);
         startActivity(PedirItem);
     }
-
+    //Boton Peticiones
     public void MiraPeticiones(View view){
         Intent VerPeticiones = new Intent(this, PeticionesActivity.class);
         VerPeticiones.putExtra("IdProfesor",IdProfesor);

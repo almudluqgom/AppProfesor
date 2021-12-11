@@ -1,12 +1,19 @@
 package info.androidhive.sqlite.model;
 
-public class Profesor {
+import java.io.Serializable;
+
+public class Profesor implements Serializable {
 
     String idProfesor;
     String NombreApell;
     int IDFoto;
 
     public Profesor(){}
+    public Profesor(Profesor p){
+        this.idProfesor = p.idProfesor;
+        this.NombreApell = p.NombreApell;
+        this.IDFoto = p.IDFoto;
+    }
     public Profesor(String idProfesor, String nombreApell, int IDFoto) {
         this.idProfesor = idProfesor;
         this.NombreApell = nombreApell;

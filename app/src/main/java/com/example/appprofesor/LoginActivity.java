@@ -1,11 +1,7 @@
 package com.example.appprofesor;
 
 import android.content.Intent;
-import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.Formatter;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -27,31 +23,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.transform.Result;
-
+import info.androidhive.sqlite.helper.RecViewAdaptProfe;
 import info.androidhive.sqlite.model.Profesor;
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
     protected RecyclerView recyclerViewProfe;
     private RecViewAdaptProfe adaptadorProfe;
     List<Profesor> listProfesores;
-    List<String> listanombres;
-    RequestQueue requestQueue;
-    Profesor profesor;
     String IdProfesor;
-    TextView    ipadd,text;
+    TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,27 +46,38 @@ public class LoginActivity extends AppCompatActivity{
         //WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         //ipadd.setText(Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress()));
         //String ip = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+
         listProfesores = new ArrayList<Profesor>();
-        obtenerListaProfes(listProfesores);
+        recyclerViewProfe= (RecyclerView) findViewById(R.id.recyclerTareas);
 
-        text=findViewById(R.id.result);
-        recyclerViewProfe= (RecyclerView) findViewById(R.id.recyclerProfe);
-        recyclerViewProfe.setHasFixedSize(true);
-        recyclerViewProfe.setLayoutManager(new LinearLayoutManager(this));
-//        adaptadorProfe = new RecyclerViewAdaptador(listProfesores);
-//        recyclerViewProfe.setAdapter(adaptadorProfe);
-        //Toast.makeText(LoginActivity.this, listProfesores.size(), Toast.LENGTH_LONG).show();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewProfe.setLayoutManager(layoutManager);
 
+        adaptadorProfe = new RecViewAdaptProfe(listProfesores);
+        adaptadorProfe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Seleccion: "+
+                        listProfesores.get(recyclerViewProfe.getChildAdapterPosition(v)).getNombreApell(), Toast.LENGTH_LONG).show();
+
+                //String id=listProfesores.get(recyclerViewProfe.getChildAdapterPosition(v)).getIdProfesor();
+                Intent Volver = new Intent(getApplicationContext(), MainActivity.class);
+                Profesor profesor = new Profesor(listProfesores.get(recyclerViewProfe.getChildAdapterPosition(v)));
+                Volver.putExtra("profe",profesor);
+                //Volver.putExtra("IdProfesor",id);
+                startActivity(Volver);
+            }
+        });
+        adaptadorProfe.notifyDataSetChanged();
+        obtenerListaProfes();
     }
 
-    public void Volver(View view){
-        Intent Volver = new Intent(this, MainActivity.class);
-        startActivity(Volver);
-    }
-    public void obtenerListaProfes(List Profesores){
-
-            String url="http://192.168.1.14:80/android_mysql/select.php";
-            StringRequest stringRequest = new StringRequest (Request.Method.GET,url,
+    public void obtenerListaProfes(){
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            String url="http://192.168.1.14:80/android_mysql/selectProfesores.php";
+            //url= http://url
+            StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -98,9 +92,8 @@ public class LoginActivity extends AppCompatActivity{
                                             Profe.getInt("idfoto")
                                     ));
                                 }
-                                RecViewAdaptProfe adapter = new RecViewAdaptProfe(listProfesores);
-                                recyclerViewProfe.setAdapter(adapter);
-                                text.setText(response);
+                                recyclerViewProfe.setAdapter(adaptadorProfe);
+                                adaptadorProfe.notifyDataSetChanged();
                             }
                             catch (JSONException e) {
                                 text.setText(e.getMessage());
@@ -114,7 +107,10 @@ public class LoginActivity extends AppCompatActivity{
 
                         }
                     });
-            Volley.newRequestQueue(LoginActivity.this).add(stringRequest);
+        int socketTimeout = 30000;
+        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(retryPolicy);
+        requestQueue.add(stringRequest);
 
     }
 }

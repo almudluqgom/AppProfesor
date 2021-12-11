@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import info.androidhive.sqlite.helper.DatabaseHelper;
 import info.androidhive.sqlite.model.Tareas;
 
 public class TareaActivity extends AppCompatActivity {

@@ -2,15 +2,22 @@ package info.androidhive.sqlite.model;
 
 import android.database.Cursor;
 
-public class Tareas {
-    int idProfe, idAlumno, idObjeto, idFoto;
+import java.io.Serializable;
+
+public class Tareas implements Serializable {
+
+    String NombreObjeto;
+
+    int idTarea, idProfe, idAlumno, idObjeto, idFoto;
     String HoraEntrega, Comentario;
     boolean ConfirmaAlumno, ConfirmaProfesor;
     int status, cantidadObjeto;
 
-    public Tareas(){}
+    public Tareas(Tareas tareas){}
 
-    public Tareas( int idFoto, int idAlumno,int idProfe, int idObjeto,  String horaEntrega, String comentario, int cantidadObjeto, boolean confirmaAlumno, boolean confirmaProfesor, int status) {
+    public Tareas( int idTarea,String nombreObjeto,int idFoto,int idProfe, int idAlumno, int idObjeto,  String horaEntrega, String comentario, int cantidadObjeto, boolean confirmaAlumno, boolean confirmaProfesor, int status) {
+        this.idTarea=idTarea;
+        this.NombreObjeto= nombreObjeto;
         this.idFoto = idFoto;
         this.idAlumno = idAlumno;
         this.idProfe = idProfe;
@@ -21,6 +28,22 @@ public class Tareas {
         this.ConfirmaAlumno = confirmaAlumno;
         this.ConfirmaProfesor = confirmaProfesor;
         this.status = status;
+    }
+
+    public int getIdTarea() {
+        return idTarea;
+    }
+
+    public void setIdTarea(int idTarea) {
+        this.idTarea = idTarea;
+    }
+
+    public String getNombreObjeto() {
+        return NombreObjeto;
+    }
+
+    public void setNombreObjeto(String nombreObjeto) {
+        NombreObjeto = nombreObjeto;
     }
 
     public int getIdProfe() {
