@@ -82,20 +82,20 @@ public class MainActivity extends AppCompatActivity {
     //Boton nuevo encargo
     public void AccedeTareas(View view){
         Intent PedirItem = new Intent(this, SolicitaActivity.class);
-        PedirItem.putExtra("IdProfesor",IdProfesor);
+        PedirItem.putExtra("profe",ProfesorActual);
         startActivity(PedirItem);
     }
     //Boton Peticiones
     public void MiraPeticiones(View view){
         Intent VerPeticiones = new Intent(this, PeticionesActivity.class);
-        VerPeticiones.putExtra("IdProfesor",IdProfesor);
+        VerPeticiones.putExtra("profe",ProfesorActual);
         startActivity(VerPeticiones);
     }
     //Boton Login
     public void seleccionaUsuario(View view){
         IdProfesor="";
+        ProfesorActual = new Profesor();
         Intent LoginAct = new Intent(this, LoginActivity.class);
-        LoginAct.putExtra("IdProfesor",IdProfesor);
         startActivity(LoginAct);
     }
 }

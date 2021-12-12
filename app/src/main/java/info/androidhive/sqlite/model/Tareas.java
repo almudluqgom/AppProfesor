@@ -7,15 +7,30 @@ import java.io.Serializable;
 public class Tareas implements Serializable {
 
     String NombreObjeto;
-
-    int idTarea, idProfe, idAlumno, idObjeto, idFoto;
+    int idTarea,idProfe,idAlumno, idObjeto, idFoto;
     String HoraEntrega, Comentario;
     boolean ConfirmaAlumno, ConfirmaProfesor;
     int status, cantidadObjeto;
+    int idFotoFeedback;
 
-    public Tareas(Tareas tareas){}
+    public Tareas(Tareas tareas){
+        this.idTarea=tareas.getIdTarea();
+        this.NombreObjeto= tareas.getNombreObjeto();
+        this.idFoto = tareas.getIdFoto();
+        this.idAlumno = tareas.getIdAlumno();
+        this.idProfe = tareas.getIdProfe();
+        this.idObjeto = tareas.getIdObjeto();
+        this.HoraEntrega = tareas.getHoraEntrega();
+        this.Comentario = tareas.getComentario();
+        this.cantidadObjeto = tareas.getCantidadObjeto();
+        this.ConfirmaAlumno = tareas.isConfirmaAlumno();
+        this.ConfirmaProfesor = tareas.isConfirmaProfesor();
+        this.status = tareas.getStatus();
+        this.idFotoFeedback = tareas.getIdFotoFeedback();
+    }
 
-    public Tareas( int idTarea,String nombreObjeto,int idFoto,int idProfe, int idAlumno, int idObjeto,  String horaEntrega, String comentario, int cantidadObjeto, boolean confirmaAlumno, boolean confirmaProfesor, int status) {
+    public Tareas( int idTarea,String nombreObjeto,int idFoto,int idProfe, int idAlumno, int idObjeto,  String horaEntrega,
+                   String comentario, int cantidadObjeto, boolean confirmaAlumno, boolean confirmaProfesor, int status, int idF) {
         this.idTarea=idTarea;
         this.NombreObjeto= nombreObjeto;
         this.idFoto = idFoto;
@@ -28,6 +43,16 @@ public class Tareas implements Serializable {
         this.ConfirmaAlumno = confirmaAlumno;
         this.ConfirmaProfesor = confirmaProfesor;
         this.status = status;
+        this.idFotoFeedback = idF;
+    }
+
+
+    public int getIdFotoFeedback() {
+        return idFotoFeedback;
+    }
+
+    public void setIdFotoFeedback(int idFotoFeedback) {
+        this.idFotoFeedback = idFotoFeedback;
     }
 
     public int getIdTarea() {

@@ -33,22 +33,22 @@ public class LoginActivity extends AppCompatActivity {
     protected RecyclerView recyclerViewProfe;
     private RecViewAdaptProfe adaptadorProfe;
     List<Profesor> listProfesores;
-    String IdProfesor;
-    TextView text;
+    String url_ip;
+    TextView text,ipadd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        text = (TextView) findViewById(R.id.ipaddr);
         //---------CODIGO PARA CONSEGUIR LA IP DEL DISPOSITIVO-----------------
-        //ipadd = (TextView) findViewById(R.id.ipaddr);
-        //WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        //ipadd.setText(Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress()));
-        //String ip = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+//        ipadd = (TextView) findViewById(R.id.ipaddr);
+//        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+//        ipadd.setText(Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress()));
+//        url_ip = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
 
         listProfesores = new ArrayList<Profesor>();
-        recyclerViewProfe= (RecyclerView) findViewById(R.id.recyclerTareas);
+        recyclerViewProfe= (RecyclerView) findViewById(R.id.recyclerMaterial);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void obtenerListaProfes(){
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            String url="http://192.168.1.14:80/android_mysql/selectProfesores.php";
+            String url="http://192.168.1.14/android_mysql/selectProfesores.php";
             //url= http://url
             StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
                     new Response.Listener<String>() {

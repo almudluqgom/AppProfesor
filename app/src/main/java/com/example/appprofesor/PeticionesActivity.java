@@ -1,6 +1,5 @@
 package com.example.appprofesor;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,17 +23,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import info.androidhive.sqlite.helper.RecViewAdaptTarea;
+import info.androidhive.sqlite.model.Profesor;
 import info.androidhive.sqlite.model.Tareas;
 
 public class PeticionesActivity extends AppCompatActivity{
     protected RecyclerView recyclerViewTareas;
     private RecViewAdaptTarea adaptadorTarea;
     List<Tareas> listTareas;
+    Profesor ProfesorActual;
     String IdProfesor="";
 
     @Override
@@ -43,9 +41,12 @@ public class PeticionesActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_peticiones);
 
-        IdProfesor = getIntent().getStringExtra("IdProfesor");
+        if(getIntent().getExtras() != null) {
+            ProfesorActual = (Profesor) getIntent().getSerializableExtra("profe");
+            IdProfesor =ProfesorActual.getIdProfesor();
+        }
         listTareas = new ArrayList<Tareas>();
-        recyclerViewTareas= (RecyclerView) findViewById(R.id.recyclerTareas);
+        recyclerViewTareas= (RecyclerView) findViewById(R.id.recyclerMaterial);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -98,7 +99,8 @@ public class PeticionesActivity extends AppCompatActivity{
                                 T.getInt("Cantidad"),//int cantidadObjeto,
                                 al,//boolean confirmaAlumno,
                                 pr,//boolean confirmaProfesor,
-                                T.getInt("EstadoTarea")//int status
+                                T.getInt("EstadoTarea"),//int status
+                                        T.getInt("idFeedback")
                                 ));
                             }
                             recyclerViewTareas.setAdapter(adaptadorTarea);
