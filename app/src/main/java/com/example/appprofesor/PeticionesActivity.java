@@ -62,6 +62,7 @@ public class PeticionesActivity extends AppCompatActivity{
                 Intent IrATarea = new Intent(getApplicationContext(), TareaActivity.class);
                 Tareas t = new Tareas(listTareas.get(recyclerViewTareas.getChildAdapterPosition(v)));
                 IrATarea.putExtra("tarea",t);
+                IrATarea.putExtra("profe",ProfesorActual);
                 startActivity(IrATarea);
             }
         });
@@ -71,6 +72,7 @@ public class PeticionesActivity extends AppCompatActivity{
 
     public void Volver(View view){
         Intent Volver = new Intent(this, MainActivity.class);
+        Volver.putExtra("profe",ProfesorActual);
         startActivity(Volver);
     }
 
@@ -82,13 +84,10 @@ public class PeticionesActivity extends AppCompatActivity{
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Toast.makeText(PeticionesActivity.this,response.toString(), Toast.LENGTH_LONG).show();
-
                             JSONArray itemArray = new JSONArray(response);
                             for (int i = 0; i < itemArray.length(); i++) {
                                 JSONObject T = itemArray.getJSONObject(i);
                                 boolean al=false,pr=false;
-                                Toast.makeText(PeticionesActivity.this,response, Toast.LENGTH_LONG).show();
                                 if( T.getInt("ConfirmacionAlumno")==1) al = true;
                                 if( T.getInt("ConfirmacionProfesor")==1) pr=true;
                                 listTareas.add(new Tareas(
@@ -128,11 +127,8 @@ public class PeticionesActivity extends AppCompatActivity{
                 params.put("id",IdProfesor);
                 return params;
             }
-        }; ;
-        int socketTimeout = 30000;
-        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(retryPolicy);
-        requestQueue.add(stringRequest);
+        };
+          requestQueue.add(stringRequest);
 
     }
 }

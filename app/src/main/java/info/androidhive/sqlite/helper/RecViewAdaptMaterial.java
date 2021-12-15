@@ -55,8 +55,8 @@ public class RecViewAdaptMaterial extends RecyclerView.Adapter<RecViewAdaptMater
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("onBindView", "");
         Material mat=MaterialLista.get(position);
-        holder.nombreMat.setText(mat.getNombre());
-        holder.cantObj.setText(String.valueOf(mat.getCantidad()));
+        String stock = mat.getNombre() + " - unidades:" + String.valueOf(mat.getCantidad());
+        holder.nombreMat.setText(stock);
         holder.fotoMat.setImageResource(mat.getIdFoto());
 
     }
@@ -76,7 +76,7 @@ public class RecViewAdaptMaterial extends RecyclerView.Adapter<RecViewAdaptMater
 
     //-----------------------------------------------------------------------------------------
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView nombreMat,cantObj;
+        private TextView nombreMat;
         ImageView fotoMat;
         CardView cardmaterial;
         //private final Context context;
@@ -86,7 +86,6 @@ public class RecViewAdaptMaterial extends RecyclerView.Adapter<RecViewAdaptMater
             Log.d("PostViewHolder", "");
             //context = itemView.getContext();
             nombreMat =(TextView)itemView.findViewById(R.id.nombreObj);
-            cantObj =(TextView)itemView.findViewById(R.id.CantidadObj);
             fotoMat=(ImageView)itemView.findViewById(R.id.imgObjeto);
             cardmaterial =itemView.findViewById(R.id.carta);
         }

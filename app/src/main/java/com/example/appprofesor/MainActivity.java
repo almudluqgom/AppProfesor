@@ -79,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 botonA.setVisibility(View.VISIBLE);
             }
         }
-        else{
-
-        }
 
         if(!TextUtils.isEmpty(IdProfesor)){
             textPr.setText("Hola, " +ProfesorActual.getNombreApell());
@@ -89,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             botonP.setEnabled(true);
         }
         else{
-            textPr.setText("Clica en el botón para empezar");
+            textPr.setText("Inicia sesión");
         }
 
     }
@@ -97,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
     public void AccedeTareas(View view){
         if(botonE.isEnabled()) {
             Intent PedirItem = new Intent(this, SolicitaActivity.class);
-            PedirItem.putExtra("profe", ProfesorActual);
+            PedirItem.putExtra("IdProfesor",IdProfesor);
+            PedirItem.putExtra("profe",ProfesorActual);
             startActivity(PedirItem);
         }
     }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,11 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import info.androidhive.sqlite.model.Profesor;
 import info.androidhive.sqlite.model.Tareas;
 
 public class TareaActivity extends AppCompatActivity {
-    Tareas TareaActual;
+    Tareas TareaActual; Profesor ProfesorActual;
     TextView HoraEntrega,Feedback,NombreObj,cantObj,status;
     ImageView FotoObjeto,FotoFeedback;
     ImageButton Bentr, BNoentr, BFeed;
@@ -36,6 +40,7 @@ public class TareaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarea);
+
         Bentr = (ImageButton) findViewById(R.id.botonEntrega);
         BNoentr = (ImageButton) findViewById(R.id.botonNoEntrega);
         BFeed = (ImageButton) findViewById(R.id.botonFeedback);
@@ -48,6 +53,7 @@ public class TareaActivity extends AppCompatActivity {
         FotoObjeto =  (ImageView) findViewById(R.id.imagenObjeto);
 
         if(getIntent().getExtras() != null) {
+            ProfesorActual = (Profesor) getIntent().getSerializableExtra("profe");
             TareaActual = (Tareas) getIntent().getSerializableExtra("tarea");
                 HoraEntrega.setText(TareaActual.getHoraEntrega());
                 NombreObj.setText(TareaActual.getNombreObjeto());
@@ -72,7 +78,8 @@ public class TareaActivity extends AppCompatActivity {
                     case 4:
                         status.setText("Estado: Finalizada con éxito");
                         BFeed.setVisibility(View.VISIBLE);
-
+                        BNoentr.setVisibility(View.INVISIBLE);
+                        Bentr.setVisibility(View.INVISIBLE);
                 }
 
                 FotoObjeto.setImageResource(TareaActual.getIdFoto());
@@ -87,14 +94,15 @@ public class TareaActivity extends AppCompatActivity {
         }
     }
     public void Volver(View view){
-        Intent Volver = new Intent(this, MainActivity.class);
+        Intent Volver = new Intent(this, PeticionesActivity.class);
+        Volver.putExtra("profe",ProfesorActual);
         startActivity(Volver);
     }
     public void EstaEntregada(View view){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String url="http://192.168.1.14/android_mysql/entregaTarea.php?confirmaQuien=2&id=" + TareaActual.getIdTarea();   //1 confirma entrega alumno, 2 confirma entrega profe, 3 no entrega
+        String url="http://dgpsanrafael.000webhostapp.com/entregaTarea.php?confirmaQuien=2&id=" + TareaActual.getIdTarea();   //1 confirma entrega alumno, 2 confirma entrega profe, 3 no entrega
         //url= http://url
-        StringRequest stringRequest = new StringRequest (Request.Method.GET,url,
+        StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -110,25 +118,33 @@ public class TareaActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(TareaActivity.this,error.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                });
-        int socketTimeout = 30000;
-        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(retryPolicy);
-        requestQueue.add(stringRequest);
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", String.valueOf(TareaActual.getIdTarea()));
+                params.put("confirmaQuien",String.valueOf(2));
+                return params;
+            }
+        };
+         requestQueue.add(stringRequest);
     }
     public void NoEstaEntregada(View view){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String url="http://192.168.1.14/android_mysql/entregaTarea.php?confirmaQuien=4?id=" + TareaActual.getIdTarea();   //1 confirma entrega alumno, 2 confirma entrega profe, 3 no entrega
+        String url="http://dgpsanrafael.000webhostapp.com/entregaTarea.php?confirmaQuien=4?id=" + TareaActual.getIdTarea();   //1 confirma entrega alumno, 2 confirma entrega profe, 3 no entrega
         //url= http://url
-        StringRequest stringRequest = new StringRequest (Request.Method.GET,url,
+        StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(TareaActivity.this,"Tarea confirmada como NO ENTREGADA", Toast.LENGTH_LONG).show();
                         TareaActual.setStatus(3);
                         TareaActual.setConfirmaProfesor(true);
-                        finish();
-                        startActivity(getIntent());
+                        Intent Volver = new Intent(TareaActivity.this, TareaActivity.class);
+                        Volver.putExtra("profe",ProfesorActual);
+                        Volver.putExtra("tarea",TareaActual);
+                        startActivity(Volver);
                     }
                 },
                 new Response.ErrorListener() {
@@ -136,15 +152,23 @@ public class TareaActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(TareaActivity.this,error.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                });
-        int socketTimeout = 30000;
-        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(retryPolicy);
-        requestQueue.add(stringRequest);
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", String.valueOf(TareaActual.getIdTarea()));
+                params.put("confirmaQuien",String.valueOf(4));
+                return params;
+            }
+        };
+           requestQueue.add(stringRequest);
     }
+
     public void Feedback(View view){
         Intent FB = new Intent(this, FeedbackActivity.class);
-        FB.putExtra("id", String.valueOf(TareaActual.getIdTarea()));
+        FB.putExtra("tarea", TareaActual);
+        FB.putExtra("profe",ProfesorActual);
         startActivity(FB);
     }
 }

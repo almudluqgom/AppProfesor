@@ -41,11 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         text = (TextView) findViewById(R.id.ipaddr);
-        //---------CODIGO PARA CONSEGUIR LA IP DEL DISPOSITIVO-----------------
-//        ipadd = (TextView) findViewById(R.id.ipaddr);
-//        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-//        ipadd.setText(Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress()));
-//        url_ip = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
 
         listProfesores = new ArrayList<Profesor>();
         recyclerViewProfe= (RecyclerView) findViewById(R.id.recyclerMaterial);
@@ -61,11 +56,9 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(v.getContext(), "Seleccion: "+
                         listProfesores.get(recyclerViewProfe.getChildAdapterPosition(v)).getNombreApell(), Toast.LENGTH_LONG).show();
 
-                //String id=listProfesores.get(recyclerViewProfe.getChildAdapterPosition(v)).getIdProfesor();
                 Intent Volver = new Intent(getApplicationContext(), MainActivity.class);
                 Profesor profesor = new Profesor(listProfesores.get(recyclerViewProfe.getChildAdapterPosition(v)));
                 Volver.putExtra("profe",profesor);
-                //Volver.putExtra("IdProfesor",id);
                 startActivity(Volver);
             }
         });
@@ -75,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void obtenerListaProfes(){
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            String url="http://192.168.1.14/android_mysql/selectProfesores.php";
+            String url="http://dgpsanrafael.000webhostapp.com/selectProfesores.php";
             //url= http://url
             StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
                     new Response.Listener<String>() {

@@ -1,12 +1,20 @@
 package info.androidhive.sqlite.model;
 
-public class Material {
+import java.io.Serializable;
+
+public class Material implements Serializable {
     int ID;
     int cantidad;
     String nombre,descripcion;
    int idFoto;
-
     Material(){}
+    public Material(Material m){
+        this.ID=m.getID();
+        this.cantidad=m.getCantidad();
+        this.descripcion=m.getDescripcion();
+        this.nombre=m.getNombre();
+        this.idFoto=m.getIdFoto();
+    }
 
     public Material(int id,int c, String d, String n, int f){
         this.ID=id;

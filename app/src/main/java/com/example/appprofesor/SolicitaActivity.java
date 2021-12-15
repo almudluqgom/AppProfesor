@@ -31,21 +31,26 @@ import java.util.Map;
 
 import info.androidhive.sqlite.helper.RecViewAdaptMaterial;
 import info.androidhive.sqlite.model.Material;
+import info.androidhive.sqlite.model.Profesor;
 
 public class SolicitaActivity extends AppCompatActivity{
     protected RecyclerView recyclerViewMaterial;
     private RecViewAdaptMaterial adaptadorMaterial;
     List<Material> listMaterial;
+    Material MaterialActual; Profesor ProfesorActual;
     TextView cantidad;
     TextView hora;
-    String idMat,IdProfesor;
+    String IdProfesor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solicita);
 
-        IdProfesor = getIntent().getStringExtra("IdProfesor");
+        if(getIntent().getExtras() != null) {
+            ProfesorActual = (Profesor) getIntent().getSerializableExtra("profe");
+            IdProfesor =ProfesorActual.getIdProfesor();
+        }
         cantidad = (TextView) findViewById(R.id.Cantidad);
         hora = (TextView) findViewById(R.id.Hora);
 
@@ -61,8 +66,8 @@ public class SolicitaActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Seleccion: "+
-                        listMaterial.get(recyclerViewMaterial.getChildAdapterPosition(v)).getNombre(), Toast.LENGTH_LONG).show();
-                idMat =  String.valueOf(listMaterial.get(recyclerViewMaterial.getChildAdapterPosition(v)).getID());
+                listMaterial.get(recyclerViewMaterial.getChildAdapterPosition(v)).getNombre(), Toast.LENGTH_LONG).show();
+                MaterialActual = new Material (listMaterial.get(recyclerViewMaterial.getChildAdapterPosition(v)));
             }
         });
         adaptadorMaterial.notifyDataSetChanged();
@@ -70,46 +75,54 @@ public class SolicitaActivity extends AppCompatActivity{
     }
     public void Volver(View view){
         Intent Volver = new Intent(this, MainActivity.class);
+        Volver.putExtra("profe",ProfesorActual);
         startActivity(Volver);
     }
+
     public void CrearRequest(View view){
 
-        StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.1.14/android_mysql/crearTarea.php",
+        String h =hora.getText().toString();
+        String c = cantidad.getText().toString();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String url="http://dgpsanrafael.000webhostapp.com/crearTarea.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(response.equalsIgnoreCase("Datos insertados")){
-                            //limpiar();
-                            Toast.makeText(SolicitaActivity.this, "Datos insertados", Toast.LENGTH_SHORT).show();
-                            //progressDialog.dismiss();
-                        }
-                        else{
-                            Toast.makeText(SolicitaActivity.this, response, Toast.LENGTH_SHORT).show();
-                            //progressDialog.dismiss();
-                        }
-
+                        Toast.makeText(SolicitaActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Intent Volver = new Intent(SolicitaActivity.this, MainActivity.class);
+                        Volver.putExtra("profe",ProfesorActual);
+                        startActivity(Volver);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(SolicitaActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                //progressDialog.dismiss();
             }
         }
         ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
                 Map<String, String> params = new HashMap<String, String>();
-
-                //params.put("nombre", nombre);
+                    params.put("nombre", MaterialActual.getNombre());
+                    params.put("idf", String.valueOf(MaterialActual.getIdFoto()));
+                    params.put("idp",IdProfesor);
+                    params.put("ido",String.valueOf(MaterialActual.getID()));
+                    params.put("horae",h);
+                    params.put("c",c);
                 return params;
             }
         };
+        int socketTimeout = 30000;
+        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(retryPolicy);
+        requestQueue.add(request);
+
     }
     public void obtenerListaMaterial(){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String url="http://192.168.1.14/android_mysql/selectMaterial.php";
+        String url="http://dgpsanrafael.000webhostapp.com/selectMaterial.php";
         //url= http://url
         StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
                 new Response.Listener<String>() {
