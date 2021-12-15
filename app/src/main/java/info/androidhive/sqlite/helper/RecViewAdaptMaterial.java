@@ -56,7 +56,7 @@ public class RecViewAdaptMaterial extends RecyclerView.Adapter<RecViewAdaptMater
         Log.d("onBindView", "");
         Material mat=MaterialLista.get(position);
         holder.nombreMat.setText(mat.getNombre());
-        holder.cantObj.setText(mat.getCantidad());
+        holder.cantObj.setText(String.valueOf(mat.getCantidad()));
         holder.fotoMat.setImageResource(mat.getIdFoto());
 
     }

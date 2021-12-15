@@ -86,10 +86,14 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONArray itemArray = new JSONArray(response);
                                 for (int i = 0; i < itemArray.length(); i++) {
                                     JSONObject Profe = itemArray.getJSONObject(i);
+                                    boolean isadmin = false;
+                                    if(Profe.getInt("admin") == 1)
+                                    isadmin = true;
                                     listProfesores.add(new Profesor(
                                             Profe.getString("id"),
                                             Profe.getString("nombre"),
-                                            Profe.getInt("idfoto")
+                                            Profe.getInt("idfoto"),
+                                            isadmin
                                     ));
                                 }
                                 recyclerViewProfe.setAdapter(adaptadorProfe);

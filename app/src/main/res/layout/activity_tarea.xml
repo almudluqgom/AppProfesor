@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".TareaAcrivity">
 
-    <ImageButton
-        android:id="@+id/botonFeedback"
-        android:layout_width="112dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.947"
-        app:srcCompat="@android:drawable/checkbox_on_background" />
-
     <Button
         android:id="@+id/button8"
         android:layout_width="wrap_content"
@@ -31,31 +19,42 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.051" />
 
-    <ImageButton
-        android:id="@+id/botonNoEntrega"
-        android:layout_width="103dp"
-        android:layout_height="104dp"
-        android:onClick="EntregarTarea"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+        app:layout_constraintVertical_bias="0.939">
 
-    <ImageButton
-        android:id="@+id/botonEntrega"
-        android:layout_width="112dp"
-        android:layout_height="100dp"
-        android:onClick="ConfirmarEntrega"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.947"
-        app:srcCompat="@android:drawable/checkbox_on_background" />
+        <ImageButton
+            android:id="@+id/botonNoEntrega"
+            android:layout_width="103dp"
+            android:layout_height="104dp"
+            android:onClick="NoEstaEntregada"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_dialog_info" />
+
+        <ImageButton
+            android:id="@+id/botonFeedback"
+            android:layout_width="112dp"
+            android:layout_height="100dp"
+            android:onClick="Feedback"
+            android:visibility="invisible"
+            app:srcCompat="@android:drawable/checkbox_on_background" />
+
+        <ImageButton
+            android:id="@+id/botonEntrega"
+            android:layout_width="112dp"
+            android:layout_height="100dp"
+            android:onClick="EstaEntregada"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/checkbox_on_background" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/HoraEntrega"
@@ -140,4 +139,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.692"
         app:srcCompat="@android:drawable/stat_notify_sdcard" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

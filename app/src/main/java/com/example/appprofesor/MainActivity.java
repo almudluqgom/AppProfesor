@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,39 +58,56 @@ public class MainActivity extends AppCompatActivity {
     String IdProfesor="";
     Profesor ProfesorActual;
     TextView    ipadd;
+    Button botonE, botonP;
+    ImageButton botonA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View b = findViewById(R.id.botonAdmin);
+        setContentView(R.layout.activity_main);
+
         ImageButton login = (ImageButton)findViewById(R.id.botonLogin);
+        textPr = (TextView)findViewById(R.id.textoSaludoProfe);
+        botonE = (Button)findViewById(R.id.BotonNuevoEncargo);
+        botonP = (Button)findViewById(R.id.BotonPeticiones);
+        botonA = (ImageButton) findViewById(R.id.botonAdmin);
 
         if(getIntent().getExtras() != null) {
             ProfesorActual = (Profesor) getIntent().getSerializableExtra("profe");
             IdProfesor =ProfesorActual.getIdProfesor();
+            if (ProfesorActual.isAdmin()){
+                botonA.setVisibility(View.VISIBLE);
+            }
         }
+        else{
 
-        setContentView(R.layout.activity_main);
-        textPr = (TextView)findViewById(R.id.textoSaludoProfe);
+        }
 
         if(!TextUtils.isEmpty(IdProfesor)){
             textPr.setText("Hola, " +ProfesorActual.getNombreApell());
+            botonE.setEnabled(true);
+            botonP.setEnabled(true);
         }
         else{
             textPr.setText("Clica en el botón para empezar");
         }
+
     }
     //Boton nuevo encargo
     public void AccedeTareas(View view){
-        Intent PedirItem = new Intent(this, SolicitaActivity.class);
-        PedirItem.putExtra("profe",ProfesorActual);
-        startActivity(PedirItem);
+        if(botonE.isEnabled()) {
+            Intent PedirItem = new Intent(this, SolicitaActivity.class);
+            PedirItem.putExtra("profe", ProfesorActual);
+            startActivity(PedirItem);
+        }
     }
     //Boton Peticiones
     public void MiraPeticiones(View view){
-        Intent VerPeticiones = new Intent(this, PeticionesActivity.class);
-        VerPeticiones.putExtra("profe",ProfesorActual);
-        startActivity(VerPeticiones);
+        if(botonP.isEnabled()) {
+            Intent VerPeticiones = new Intent(this, PeticionesActivity.class);
+            VerPeticiones.putExtra("profe", ProfesorActual);
+            startActivity(VerPeticiones);
+        }
     }
     //Boton Login
     public void seleccionaUsuario(View view){

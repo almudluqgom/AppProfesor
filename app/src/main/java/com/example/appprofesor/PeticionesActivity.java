@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,7 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import info.androidhive.sqlite.helper.RecViewAdaptTarea;
 import info.androidhive.sqlite.model.Profesor;
@@ -73,12 +76,13 @@ public class PeticionesActivity extends AppCompatActivity{
 
     public void obtenerListaTareas(){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String url="http://192.168.1.14:80/android_mysql/selectTarea.php?id=" + IdProfesor;
-        StringRequest stringRequest = new StringRequest (Request.Method.GET,url,
+        String url="http://dgpsanrafael.000webhostapp.com/selectTarea.php?id="+ IdProfesor;
+        StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            Toast.makeText(PeticionesActivity.this,response.toString(), Toast.LENGTH_LONG).show();
 
                             JSONArray itemArray = new JSONArray(response);
                             for (int i = 0; i < itemArray.length(); i++) {
@@ -116,7 +120,15 @@ public class PeticionesActivity extends AppCompatActivity{
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(PeticionesActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                }) ;
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String,String> params = new HashMap<String,String>();
+                params.put("id",IdProfesor);
+                return params;
+            }
+        }; ;
         int socketTimeout = 30000;
         RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         stringRequest.setRetryPolicy(retryPolicy);
