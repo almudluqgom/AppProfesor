@@ -90,10 +90,10 @@ public class SolicitaActivity extends AppCompatActivity{
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(SolicitaActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                        Intent Volver = new Intent(SolicitaActivity.this, MainActivity.class);
-                        Volver.putExtra("profe",ProfesorActual);
-                        startActivity(Volver);
+                        int restante = MaterialActual.getCantidad() -  Integer.valueOf(c);
+                        String r = String.valueOf(restante);
+                        actualizaAlmacen(String.valueOf(MaterialActual.getID()),r);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -118,8 +118,45 @@ public class SolicitaActivity extends AppCompatActivity{
         RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         request.setRetryPolicy(retryPolicy);
         requestQueue.add(request);
-
     }
+
+
+    public void actualizaAlmacen(String idObj,String cantidad){
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String url="http://dgpsanrafael.000webhostapp.com/actualizaCantidad.php?id="+idObj +"&cantidad="+cantidad;   //
+        //url= http://url
+        StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(SolicitaActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Intent Volver = new Intent(SolicitaActivity.this, MainActivity.class);
+                        Volver.putExtra("profe",ProfesorActual);
+                        startActivity(Volver);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(SolicitaActivity.this,error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", idObj);
+                params.put("cantidad", cantidad);
+                return params;
+            }
+        };
+        int socketTimeout = 30000;
+        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(retryPolicy);
+        requestQueue.add(stringRequest);
+    }
+
     public void obtenerListaMaterial(){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         String url="http://dgpsanrafael.000webhostapp.com/selectMaterial.php";

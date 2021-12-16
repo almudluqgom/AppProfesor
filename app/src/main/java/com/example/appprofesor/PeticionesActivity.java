@@ -129,6 +129,5 @@ public class PeticionesActivity extends AppCompatActivity{
             }
         };
           requestQueue.add(stringRequest);
-
     }
 }
