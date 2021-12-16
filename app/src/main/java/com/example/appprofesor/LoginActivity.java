@@ -33,14 +33,12 @@ public class LoginActivity extends AppCompatActivity {
     protected RecyclerView recyclerViewProfe;
     private RecViewAdaptProfe adaptadorProfe;
     List<Profesor> listProfesores;
-    String url_ip;
-    TextView text,ipadd;
+    TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        text = (TextView) findViewById(R.id.ipaddr);
 
         listProfesores = new ArrayList<Profesor>();
         recyclerViewProfe= (RecyclerView) findViewById(R.id.recyclerMaterial);

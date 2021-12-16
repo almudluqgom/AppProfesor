@@ -58,7 +58,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/HoraEntrega"
+        android:id="@+id/HoraEntregaTarea"
         android:layout_width="192dp"
         android:layout_height="165dp"
         android:text="a"

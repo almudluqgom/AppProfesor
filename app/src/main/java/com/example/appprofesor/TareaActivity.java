@@ -20,10 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +40,7 @@ public class TareaActivity extends AppCompatActivity {
         Bentr = (ImageButton) findViewById(R.id.botonEntrega);
         BNoentr = (ImageButton) findViewById(R.id.botonNoEntrega);
         BFeed = (ImageButton) findViewById(R.id.botonFeedback);
-        HoraEntrega = (TextView) findViewById(R.id.HoraEntrega);
+        HoraEntrega = (TextView) findViewById(R.id.HoraEntregaTarea);
         NombreObj = (TextView) findViewById(R.id.nombreObjeto);
         cantObj = (TextView) findViewById(R.id.CantidadObjeto);
         status = (TextView) findViewById(R.id.statusTarea);
@@ -109,8 +105,8 @@ public class TareaActivity extends AppCompatActivity {
                         Toast.makeText(TareaActivity.this,"Tarea confirmada como ENTREGADA", Toast.LENGTH_LONG).show();
                         TareaActual.setStatus(2);
                         TareaActual.setConfirmaProfesor(true);
-                        finish();
-                        startActivity(getIntent());
+                        actualizaConteoTareas(String.valueOf(TareaActual.getIdAlumno()),2);
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -141,10 +137,7 @@ public class TareaActivity extends AppCompatActivity {
                         Toast.makeText(TareaActivity.this,"Tarea confirmada como NO ENTREGADA", Toast.LENGTH_LONG).show();
                         TareaActual.setStatus(3);
                         TareaActual.setConfirmaProfesor(true);
-                        Intent Volver = new Intent(TareaActivity.this, TareaActivity.class);
-                        Volver.putExtra("profe",ProfesorActual);
-                        Volver.putExtra("tarea",TareaActual);
-                        startActivity(Volver);
+                        actualizaConteoTareas(String.valueOf(TareaActual.getIdAlumno()),3);
                     }
                 },
                 new Response.ErrorListener() {
@@ -170,5 +163,44 @@ public class TareaActivity extends AppCompatActivity {
         FB.putExtra("tarea", TareaActual);
         FB.putExtra("profe",ProfesorActual);
         startActivity(FB);
+    }
+
+
+    public void actualizaConteoTareas(String id, int que){
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String url="http://dgpsanrafael.000webhostapp.com/actualizaConteoTareas.php?id="+id +"&que="+que;   //
+        //url= http://url
+        StringRequest stringRequest = new StringRequest (Request.Method.POST,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(TareaActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+
+                        Intent Volver = new Intent(TareaActivity.this, PeticionesActivity.class);
+                        Volver.putExtra("profe",ProfesorActual);
+                        Volver.putExtra("tarea",TareaActual);
+                        startActivity(Volver);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(TareaActivity.this,error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", id);
+                params.put("que", String.valueOf(que));
+                return params;
+            }
+        };
+        int socketTimeout = 30000;
+        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(retryPolicy);
+        requestQueue.add(stringRequest);
     }
 }

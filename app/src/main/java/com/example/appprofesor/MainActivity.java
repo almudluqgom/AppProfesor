@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView textPr;
     String IdProfesor="";
     Profesor ProfesorActual;
-    TextView    ipadd;
     Button botonE, botonP;
     ImageButton botonA;
 
@@ -67,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ImageButton login = (ImageButton)findViewById(R.id.botonLogin);
+        login.setBackgroundResource(R.drawable.pato);
         textPr = (TextView)findViewById(R.id.textoSaludoProfe);
         botonE = (Button)findViewById(R.id.BotonNuevoEncargo);
         botonP = (Button)findViewById(R.id.BotonPeticiones);
@@ -74,9 +74,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(getIntent().getExtras() != null) {
             ProfesorActual = (Profesor) getIntent().getSerializableExtra("profe");
+            login.setBackgroundResource(ProfesorActual.getIDFoto());
             IdProfesor =ProfesorActual.getIdProfesor();
             if (ProfesorActual.isAdmin()){
-                botonA.setVisibility(View.VISIBLE);
+                //botonA.setVisibility(View.VISIBLE);   //falta de tiempo
             }
         }
 
