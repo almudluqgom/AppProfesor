@@ -4,106 +4,215 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="158dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.008"
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageButton
+            android:id="@+id/botonLogin"
+            android:layout_width="134dp"
+            android:layout_height="139dp"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="#FFFFFF"
+            android:onClick="seleccionaUsuario"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/textoSaludoProfe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Inicia Sesión Primero" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="283dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/BotonMaceta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.028">
+
+        <Button
+            android:id="@+id/BotonNuevoEncargo"
+            android:layout_width="373dp"
+            android:layout_height="129dp"
+            android:enabled="false"
+            android:onClick="AccedeTareas"
+            android:text="Nuevo Encargo"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/BotonPeticiones"
+            android:layout_width="373dp"
+            android:layout_height="129dp"
+            android:enabled="false"
+            android:onClick="MiraPeticiones"
+            android:text="Peticiones"
+            android:visibility="visible" />
+    </LinearLayout>
+
     <ImageButton
-        android:id="@+id/botonAdmin"
+        android:id="@+id/BotonMaceta"
         android:layout_width="101dp"
         android:layout_height="99dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756"
+        app:layout_constraintVertical_bias="0.93"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <ImageButton
-        android:id="@+id/botonLogin"
-        android:layout_width="123dp"
-        android:layout_height="109dp"
-        android:background="#FFFFFF"
-        android:onClick="seleccionaUsuario"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.055"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/textoSaludoProfe"
-        android:layout_width="224dp"
-        android:layout_height="25dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_weight="1"
-        android:text="Clica en el botón para iniciar sesión"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.124" />
-
     <Button
-        android:id="@+id/BotonNuevoEncargo"
-        android:layout_width="362dp"
-        android:layout_height="121dp"
-        android:enabled="false"
-        android:onClick="AccedeTareas"
-        android:text="Nuevo Encargo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.306" />
-
-    <Button
-        android:id="@+id/BotonPeticiones"
-        android:layout_width="359dp"
-        android:layout_height="116dp"
-        android:enabled="false"
-        android:onClick="MiraPeticiones"
-        android:text="Peticiones"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.576"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.541" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="112dp"
-        android:layout_height="100dp"
+        android:id="@+id/BotonChat"
+        android:layout_width="114dp"
+        android:layout_height="106dp"
+        android:text="Chat"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.092"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.914"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:layout_constraintVertical_bias="0.929" />
 
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="142dp"
-        android:layout_height="99dp"
+    <Button
+        android:id="@+id/BotonAjustes"
+        android:layout_width="114dp"
+        android:layout_height="106dp"
+        android:text="Ajustes"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.903"
+        app:layout_constraintHorizontal_bias="0.892"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.919"
-        app:srcCompat="@android:drawable/btn_plus" />
+        app:layout_constraintVertical_bias="0.928" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--&lt;!&ndash;-->
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:layout_margin="10dp"-->
+    <!--    tools:context=".MainActivity">-->
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/botonAdmin"-->
+    <!--        android:layout_width="101dp"-->
+    <!--        android:layout_height="99dp"-->
+    <!--        android:visibility="invisible"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.496"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.756"-->
+    <!--        tools:srcCompat="@tools:sample/avatars" />-->
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/botonLogin"-->
+    <!--        android:layout_width="123dp"-->
+    <!--        android:layout_height="109dp"-->
+    <!--        android:background="#FFFFFF"-->
+    <!--        android:onClick="seleccionaUsuario"-->
+    <!--        android:scaleType="fitCenter"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.116"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.055"-->
+    <!--        tools:srcCompat="@tools:sample/avatars" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textoSaludoProfe"-->
+    <!--        android:layout_width="224dp"-->
+    <!--        android:layout_height="25dp"-->
+    <!--        android:layout_alignParentStart="true"-->
+    <!--        android:layout_alignParentLeft="true"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:text="Clica en el botón para iniciar sesión"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="1.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.124" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/BotonNuevoEncargo"-->
+    <!--        android:layout_width="362dp"-->
+    <!--        android:layout_height="121dp"-->
+    <!--        android:enabled="false"-->
+    <!--        android:onClick="AccedeTareas"-->
+    <!--        android:text="Nuevo Encargo"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.551"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.306" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/BotonPeticiones"-->
+    <!--        android:layout_width="359dp"-->
+    <!--        android:layout_height="116dp"-->
+    <!--        android:enabled="false"-->
+    <!--        android:onClick="MiraPeticiones"-->
+    <!--        android:text="Peticiones"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.576"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.541" />-->
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/imageButton2"-->
+    <!--        android:layout_width="112dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:visibility="invisible"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.092"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.914"-->
+    <!--        app:srcCompat="@android:drawable/ic_dialog_email" />-->
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/imageButton3"-->
+    <!--        android:layout_width="142dp"-->
+    <!--        android:layout_height="99dp"-->
+    <!--        android:visibility="invisible"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.903"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.919"-->
+    <!--        app:srcCompat="@android:drawable/btn_plus" />-->
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;-->

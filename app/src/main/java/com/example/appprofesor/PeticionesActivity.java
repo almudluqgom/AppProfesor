@@ -93,7 +93,7 @@ public class PeticionesActivity extends AppCompatActivity{
                                 listTareas.add(new Tareas(
                                 T.getInt("id"),       //int id,
                                 T.getString("nombre"), //String NombreObjeto
-                                T.getInt("idFoto"),       //int idFoto,
+                                T.getString("idFoto"),       //int idFoto,
                                 T.getInt("idProfesor"),//int idProfe,
                                 T.getInt("idAlumno"),//int idAlumno,
                                 T.getInt("idObjeto"),//int idObjeto,

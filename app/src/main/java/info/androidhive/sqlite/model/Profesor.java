@@ -6,7 +6,7 @@ public class Profesor implements Serializable {
 
     String idProfesor;
     String NombreApell;
-    int IDFoto;
+    String IDFoto;
 
 
     boolean Admin;
@@ -18,7 +18,7 @@ public class Profesor implements Serializable {
         this.IDFoto = p.IDFoto;
         this.Admin = p.isAdmin();
     }
-    public Profesor(String idProfesor, String nombreApell, int IDFoto, boolean admin) {
+    public Profesor(String idProfesor, String nombreApell, String IDFoto, boolean admin) {
         this.idProfesor = idProfesor;
         this.NombreApell = nombreApell;
         this.IDFoto = IDFoto;
@@ -48,11 +48,11 @@ public class Profesor implements Serializable {
         NombreApell = nombreApell;
     }
 
-    public int getIDFoto() {
+    public String getIDFoto() {
         return IDFoto;
     }
 
-    public void setIDFoto(int IDFoto) {
+    public void setIDFoto(String IDFoto) {
         this.IDFoto = IDFoto;
     }
 

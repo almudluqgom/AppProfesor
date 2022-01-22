@@ -5,8 +5,7 @@ import java.io.Serializable;
 public class Material implements Serializable {
     int ID;
     int cantidad;
-    String nombre,descripcion;
-   int idFoto;
+    String nombre,descripcion, idFoto;
     Material(){}
     public Material(Material m){
         this.ID=m.getID();
@@ -16,7 +15,7 @@ public class Material implements Serializable {
         this.idFoto=m.getIdFoto();
     }
 
-    public Material(int id,int c, String d, String n, int f){
+    public Material(int id,int c, String d, String n, String f){
         this.ID=id;
         this.cantidad=c;
         this.descripcion=d;
@@ -54,11 +53,11 @@ public class Material implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public int getIdFoto() {
+    public String getIdFoto() {
         return idFoto;
     }
 
-    public void setIdFoto(int idFoto) {
+    public void setIdFoto(String idFoto) {
         this.idFoto = idFoto;
     }
 

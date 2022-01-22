@@ -66,15 +66,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ImageButton login = (ImageButton)findViewById(R.id.botonLogin);
-        login.setBackgroundResource(R.drawable.pato);
+        login.setBackgroundResource(R.drawable.iconoapp);
         textPr = (TextView)findViewById(R.id.textoSaludoProfe);
         botonE = (Button)findViewById(R.id.BotonNuevoEncargo);
         botonP = (Button)findViewById(R.id.BotonPeticiones);
-        botonA = (ImageButton) findViewById(R.id.botonAdmin);
+        //botonA = (ImageButton) findViewById(R.id.botonAdmin);
 
         if(getIntent().getExtras() != null) {
             ProfesorActual = (Profesor) getIntent().getSerializableExtra("profe");
-            login.setBackgroundResource(ProfesorActual.getIDFoto());
+
+            //login.setBackgroundResource(ProfesorActual.getIDFoto());
+            String variableValue = ProfesorActual.getIDFoto();
+            login.setBackgroundResource(getResources().getIdentifier(variableValue, "drawable", getPackageName()));
+
             IdProfesor =ProfesorActual.getIdProfesor();
             if (ProfesorActual.isAdmin()){
                 //botonA.setVisibility(View.VISIBLE);   //falta de tiempo

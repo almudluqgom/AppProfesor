@@ -37,7 +37,7 @@
             android:layout_height="104dp"
             android:onClick="NoEstaEntregada"
             android:visibility="visible"
-            app:srcCompat="@android:drawable/ic_dialog_info" />
+            app:srcCompat="@android:drawable/btn_dialog" />
 
         <ImageButton
             android:id="@+id/botonFeedback"
@@ -53,7 +53,8 @@
             android:layout_height="100dp"
             android:onClick="EstaEntregada"
             android:visibility="visible"
-            app:srcCompat="@android:drawable/checkbox_on_background" />
+            app:srcCompat="@android:drawable/checkbox_on_background"
+            tools:srcCompat="@android:drawable/checkbox_on_background" />
 
     </LinearLayout>
 

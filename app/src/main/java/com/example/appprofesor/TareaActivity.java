@@ -78,7 +78,8 @@ public class TareaActivity extends AppCompatActivity {
                         Bentr.setVisibility(View.INVISIBLE);
                 }
 
-                FotoObjeto.setImageResource(TareaActual.getIdFoto());
+                String variableValue = TareaActual.getIdFoto();
+                FotoObjeto.setImageResource(getResources().getIdentifier(variableValue, "drawable", getPackageName()));
 
                 if(TareaActual.getIdFotoFeedback()!=0){//si es !=0 entonces es que hay feedback
                     FotoFeedback.setVisibility(View.VISIBLE);

@@ -175,7 +175,7 @@ public class SolicitaActivity extends AppCompatActivity{
                                         Mat.getInt("cantidad"),
                                         Mat.getString("descripcion"),
                                         Mat.getString("nombre"),
-                                        Mat.getInt("idfoto")
+                                        Mat.getString("idfoto")
                                 ));
                             }
                             recyclerViewMaterial.setAdapter(adaptadorMaterial);

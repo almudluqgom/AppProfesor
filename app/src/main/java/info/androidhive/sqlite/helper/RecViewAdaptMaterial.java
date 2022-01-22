@@ -1,6 +1,7 @@
 
 package info.androidhive.sqlite.helper;
 
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,12 @@ public class RecViewAdaptMaterial extends RecyclerView.Adapter<RecViewAdaptMater
         Material mat=MaterialLista.get(position);
         String stock = mat.getNombre() + " - unidades:" + String.valueOf(mat.getCantidad());
         holder.nombreMat.setText(stock);
-        holder.fotoMat.setImageResource(mat.getIdFoto());
+
+        Resources res = holder.itemView.getContext().getResources();
+        String variableValue = mat.getIdFoto();
+        holder.fotoMat.setImageResource(res.getIdentifier(variableValue, "drawable", holder.itemView.getContext().getPackageName()));
+
+        //holder.fotoMat.setImageResource(mat.getIdFoto());
 
     }
     @Override

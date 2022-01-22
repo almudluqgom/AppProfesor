@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                                     listProfesores.add(new Profesor(
                                             Profe.getString("id"),
                                             Profe.getString("nombre"),
-                                            Profe.getInt("idfoto"),
+                                            Profe.getString("idfoto"),
                                             isadmin
                                     ));
                                 }
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                                 adaptadorProfe.notifyDataSetChanged();
                             }
                             catch (JSONException e) {
-                                text.setText(e.getMessage());
+                                //text.setText(e.getMessage());
                                 Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
